@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import cors from "cors";
 import errorHandler from './middlewares/errorHandling';
 import userRouter from './routes/userRoutes';
+import mediaRouter from './routes/mediaRoutes';
 
 const app = express();
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/user',userRouter);
+app.use('/api/media',mediaRouter);
 app.use(
   errorHandler as (
       err: any,

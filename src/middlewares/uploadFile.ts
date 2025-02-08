@@ -30,14 +30,11 @@ function sanitizeFile(
   cb: FileFilterCallback
 ): void {
   
-  const fileExts = [".png", ".jpg", ".jpeg", ".gif", ".pdf"];
+  const allowedExts = [".png", ".jpg", ".jpeg", ".gif", ".mp4", ".mov", ".avi", ".mkv"];
+  const allowedMimeTypes = ["image/", "video/"];
 
-  const isAllowedExt = fileExts.includes(
-    path.extname(file.originalname.toLowerCase())
-  );
-
-  const isAllowedMimeType = file.mimetype.startsWith("image/")|| file.mimetype === "application/pdf";
-
+  const isAllowedExt = allowedExts.includes(path.extname(file.originalname).toLowerCase());
+  const isAllowedMimeType = allowedMimeTypes.some((type) => file.mimetype.startsWith(type));
   if (isAllowedExt && isAllowedMimeType) {
     return cb(null, true);
   } else {
@@ -45,7 +42,7 @@ function sanitizeFile(
   }
 }
 
-const uploadImage = multer({
+const uploadMedia = multer({
 
   storage: s3Storage, 
   fileFilter: (
@@ -60,4 +57,4 @@ const uploadImage = multer({
   },
 });
 
-export default uploadImage;
+export default uploadMedia;
