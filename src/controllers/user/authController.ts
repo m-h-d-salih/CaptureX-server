@@ -19,7 +19,11 @@ export const signup=async(req:Request,res:Response)=>{
     res.status(201).json({
         success: true,
         message: "User Registered Successfully",
-        data: user,
+        data:{
+            id:user._id,
+            name:user.name,
+            email:user.email
+        } 
       });
 }
 
@@ -35,6 +39,10 @@ export const login=async(req:Request,res:Response)=>{
         const validateUser=await comparepassword(password,user.password)
         if(!validateUser) return res.status(404).json({success:false,message:`inncorrect username/password `})
         const token=generateToken(user.id)
-         res.status(200).json({success:true,message:`user logined successfully`,data:user,token })
+         res.status(200).json({success:true,message:`user logined successfully`, data:{
+            id:user._id,
+            name:user.name,
+            email:user.email
+        } ,token })
 
 }
